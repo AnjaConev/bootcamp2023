@@ -2,32 +2,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from .measure import calculate_distance
+from .atom_data import atom_colors
 
-def calculate_distance(rA, rB):
-    """
-    Calculate the distance between two points.
+def build_bond_list(coordinates, max_bond=1.5, min_bond=0):
+    # Find the bonds in a molecule (set of coordinates) based on distance criteria.
+    bonds = {}
+    num_atoms = len(coordinates)
 
-    Parameters
-    ----------
-    rA, rB: np.ndarray
-        The coordinates of each point
+    for atom1 in range(num_atoms):
+        for atom2 in range(atom1, num_atoms):
+            distance = calculate_distance(coordinates[atom1], coordinates[atom2])
+            if distance > min_bond and distance < max_bond:
+                bonds[(atom1, atom2)] = distance
 
-    Returns
-    -------
-    distance: float
-        The distance between the two points
-
-    Examples
-    --------
-    >>> r1 = np.array([0, 0, 0])
-    >>> r2 = np.array([0, 0.1, 0])
-    >>> calculate_distance(r1, r2)
-    0.1
-    """
-    d = rA - rB
-    dist = np.linalg.norm(d)
-    return dist
-
+    return bonds
 
 def open_pdb(f_loc):
     # This function reads in a pdb file and returns the atom names and coordinates.
@@ -43,19 +32,6 @@ def open_pdb(f_loc):
     coords = np.array(c)
     return sym, coords
 
-
-atomic_weights = {
-    "H": 1.00784,
-    "C": 12.0107,
-    "N": 14.0067,
-    "O": 15.999,
-    "P": 30.973762,
-    "F": 18.998403,
-    "Cl": 35.453,
-    "Br": 79.904,
-}
-
-
 def open_xyz(file_location):
     # Open an xyz file and return symbols and coordinates.
     xyz_file = np.genfromtxt(fname=file_location, skip_header=2, dtype="unicode")
@@ -63,7 +39,6 @@ def open_xyz(file_location):
     coords = xyz_file[:, 1:]
     coords = coords.astype(float)
     return symbols, coords
-
 
 def write_xyz(file_location, symbols, coordinates):
     # Write an xyz file given a file location, symbols, and coordinates.
@@ -79,7 +54,6 @@ def write_xyz(file_location, symbols, coordinates):
                     symbols[i], coordinates[i, 0], coordinates[i, 1], coordinates[i, 2]
                 )
             )
-
 
 def draw_molecule(coordinates, symbols, draw_bonds=None, save_location=None, dpi=300):
     # Draw a picture of a molecule using matplotlib.
@@ -125,20 +99,6 @@ def draw_molecule(coordinates, symbols, draw_bonds=None, save_location=None, dpi
 
     return ax
 
-
-def calculate_angle(rA, rB, rC, degrees=False):
-    # Calculate the angle between three points. Answer is given in radians by default, but can be given in degrees
-    # by setting degrees=True
-    AB = rB - rA
-    BC = rB - rC
-    theta = np.arccos(np.dot(AB, BC) / (np.linalg.norm(AB) * np.linalg.norm(BC)))
-
-    if degrees:
-        return np.degrees(theta)
-    else:
-        return theta
-
-
 def bond_histogram(bond_list, save_location=None, dpi=300, graph_min=0, graph_max=2):
     # Draw a histogram of bond lengths based on a bond_list (output from build_bond_list function)
 
@@ -162,34 +122,6 @@ def bond_histogram(bond_list, save_location=None, dpi=300, graph_min=0, graph_ma
 
     return ax
 
-
-def build_bond_list(coordinates, max_bond=1.5, min_bond=0):
-    # Find the bonds in a molecule (set of coordinates) based on distance criteria.
-    bonds = {}
-    num_atoms = len(coordinates)
-
-    for atom1 in range(num_atoms):
-        for atom2 in range(atom1, num_atoms):
-            distance = calculate_distance(coordinates[atom1], coordinates[atom2])
-            if distance > min_bond and distance < max_bond:
-                bonds[(atom1, atom2)] = distance
-
-    return bonds
-
-
-atom_colors = {
-    "H": "white",
-    "C": "#D3D3D3",
-    "N": "#add8e6",
-    "O": "red",
-    "P": "#FFA500",
-    "F": "#FFFFE0",
-    "Cl": "#98FB98",
-    "Br": "#F4A460",
-    "S": "yellow",
-}
-
-
 def canvas(with_attribution:bool=True):
     """
     Placeholder function to show example docstring (NumPy format).
@@ -211,7 +143,6 @@ def canvas(with_attribution:bool=True):
     if with_attribution:
         quote += "\n\t- Adapted from Henry David Thoreau"
     return quote
-
 
 if __name__ == "__main__":
     # Do something if this file is invoked on its own
