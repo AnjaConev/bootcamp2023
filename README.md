@@ -13,7 +13,13 @@ To do development install clone this and type:
 `pip install -e .`
 in the repository directory.
 
-This package requires  `numpy`.
+This package requires  `numpy` and `matplotlib`.
+
+Features should be added on branches using commands:
+`git checkout -b new_features`
+To switch to an existing branch:
+`git checkout main`
+
 
 ### Copyright
 
