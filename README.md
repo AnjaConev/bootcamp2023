@@ -13,6 +13,8 @@ To do development install clone this and type:
 `pip install -e .`
 in the repository directory.
 
+This package requires  `numpy`.
+
 ### Copyright
 
 Copyright (c) 2023, Anja Conev
