@@ -7,6 +7,12 @@ bootcamp2023
 
 Molssi bootcamp fun stuff.
 
+This repository is under development.
+To do development install clone this and type:
+
+`pip install -e .`
+in the repository directory.
+
 ### Copyright
 
 Copyright (c) 2023, Anja Conev
