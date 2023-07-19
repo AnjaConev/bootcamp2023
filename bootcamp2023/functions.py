@@ -127,11 +127,9 @@ def bond_histogram(bond_list, save_location=None, dpi=300, graph_min=0, graph_ma
 
     return ax
 
-def canvas(with_attribution:bool=True):
-    """
-    Placeholder function to show example docstring (NumPy format).
+def canvas(with_attribution=True):
 
-    Replace this function and doc string for your own project.
+    """Placeholder function to show example docstring (NumPy format).
 
     Parameters
     ----------
@@ -142,6 +140,7 @@ def canvas(with_attribution:bool=True):
     -------
     quote : str
         Compiled string including quote and optional attribution.
+        
     """
 
     quote = "The code is but a canvas to our imagination!"

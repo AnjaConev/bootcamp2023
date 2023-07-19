@@ -13,8 +13,6 @@ Welcome to bootcamp2023's documentation!
    getting_started
    api
 
-
-
 Indices and tables
 ==================
 
